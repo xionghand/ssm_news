@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+	<!-- 加载外部的jdbc.properteis文件 -->
+
+	<settings>
+		<setting name="jdbcTypeForNull" value="NULL"/>
+	</settings>
+	
+	<mappers>
+		<mapper resource="com/dao/NewsDaoMapper.xml"></mapper>
+		<mapper resource="com/dao/UserDaoMapper.xml"></mapper>
+		<mapper resource="com/dao/RoleDaoMapper.xml"></mapper>
+		<mapper resource="com/dao/UserDaoMapper.xml"></mapper>
+		<mapper resource="com/dao/PowerDaoMapper.xml"></mapper>
+	</mappers>
+	
+</configuration>

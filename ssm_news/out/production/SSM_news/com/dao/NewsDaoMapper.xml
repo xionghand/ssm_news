@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.dao.NewsDao">
+
+	<insert id="addNews">
+		insert into news values(seq_news.nextval,#{newsId},#{title},#{context},#{newsMan},#{newsDate},#{pic},#{typeId})
+	</insert>
+	<select id="queryById" resultType="com.pojo.News">
+		select * from news where id = #{id}
+	</select>
+	<update id="updateNews">
+		update news set newsId=#{newsId},title=#{title},context=#{context},newsMan=#{newsMan},newsdate=#{newsDate},pic=#{pic},typeId=#{typeId} where id=#{id}
+	</update>
+	<delete id="delNewsById">
+		delete from news where id = #{id}
+	</delete>
+
+	<select id="totalNews" resultType="int">
+		select count(1) from news
+			<where>
+				<if test="qTitle!=null and qTitle!=''">
+					and title like concat('%',concat(#{qTitle},'%'))
+				</if>
+				<if test="qStartDate!=null">
+					and newsDate>#{qStartDate}
+				</if>
+				<if test="qEndNewsDate!=null">
+					and newsDate<![CDATA[<]]>#{qEndNewsDate}
+				</if>
+			</where>
+	</select>
+
+	<select id="queryNewsByPage" resultType="com.pojo.News">
+		select * from( select n1.*,row_number()over(order by id asc)r from (select * from news
+			<if test="query!=null">
+				<where>
+					<if test="query.qTitle!=null and query.qTitle!=''">
+						and title like concat('%',concat(#{query.qTitle},'%'))
+					</if>
+					<if test="query.qStartDate!=null">
+						and newsDate>#{query.qStartDate}
+					</if>
+					<if test="query.qEndNewsDate!=null">
+						and newsDate<![CDATA[<]]>#{query.qEndNewsDate}
+					</if>
+				</where>
+			</if>
+		)n1) where r>(#{curPage}-1)*#{pageSize}
+		and r<![CDATA[<=]]>#{curPage}*#{pageSize}
+	</select>
+
+	<select id="queryTypeId" resultType="com.pojo.News">
+		select distinct(typeId) from news
+	</select>
+
+</mapper>

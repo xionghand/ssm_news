@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--
+namespace:必须是对应接口的全路径
+-->
+<mapper namespace="com.dao.PowerDao">
+    <resultMap id="powerMap" type="com.pojo.Power">
+        <id property="id" column="ID"></id>
+        <result property="powerId" column="POWER_ID"></result>
+        <result property="name" column="NAME"></result>
+        <result property="url" column="URL"></result>
+    </resultMap>
+
+    <!--dao接口里面的每个方法必须对应一条sql语句,映射文件中的sql语句没有必须非对应接口中的方法-->
+    <select id="queryPowerByRole" resultMap="powerMap" parameterType="int">
+        select * from T_ROLE_POWER pr,T_POWER p where pr.P_ID=p.ID and pr.R_ID=#{r_id}
+    </select>
+</mapper>
